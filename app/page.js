@@ -7,10 +7,10 @@ const BRICK = ["red", "blue", "yellow", "green"];
 
 // logo ada di folder public/logos/. Dicocokkan otomatis lewat nama proyek.
 const LOGOS = [
-  { re: /pawku/i, src: "/logos/pawku.png", alt: "Logo PawKu", w: 400, h: 385 },
-  { re: /voltawaste/i, src: "/logos/voltawaste.png", alt: "Logo Voltawaste", w: 400, h: 118 },
-  { re: /ecozyne/i, src: "/logos/ecozyne.png", alt: "Logo Ecozyne", w: 315, h: 400 },
-  { re: /sipelita/i, src: "/logos/sipelita.jpg", alt: "Logo SIPELITA", w: 400, h: 400 },
+  { re: /pawku/i, src: "/Logos/pawku.png", alt: "Logo PawKu", w: 400, h: 385 },
+  { re: /voltawaste/i, src: "/Logos/voltawaste.png", alt: "Logo Voltawaste", w: 400, h: 118 },
+  { re: /ecozyne/i, src: "/Logos/ecozyne.png", alt: "Logo Ecozyne", w: 315, h: 400 },
+  { re: /sipelita/i, src: "/Logos/sipelita.jpg", alt: "Logo SIPELITA", w: 400, h: 400 },
 ];
 const logoOf = (...parts) => {
   const s = parts.join(" ");
