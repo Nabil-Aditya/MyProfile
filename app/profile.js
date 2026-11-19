@@ -3,7 +3,7 @@ export const profile = {
   siteUrl: "https://www.nabiladitya.my.id",
   name: "Muhammad Nabil Aditya Putera",
   nameLines: ["Muhammad", "Nabil", "Aditya", "Putera"],
-  callName: "Nabil",
+  callName: "M. Nabil Aditya Putera",
   role: "Software Engineer | Project Manager | AI, IoT & Cybersecurity Enthusiast",
   intro:
     "Mahasiswa Politeknik Negeri Batam yang suka memprogram, memimpin tim, dan membangun produk AI dan IoT yang benar-benar dipakai. Juara 3 nasional KMIPN VIII 2026 lewat Ecozyne.",
