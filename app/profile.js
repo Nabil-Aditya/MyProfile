@@ -6,7 +6,7 @@ export const profile = {
   callName: "M. Nabil Aditya Putera",
   role: "Software Engineer | Project Manager | AI, IoT & Cybersecurity Enthusiast",
   intro:
-    "Mahasiswa Politeknik Negeri Batam yang suka memprogram, memimpin tim, dan membangun produk AI dan IoT yang benar-benar dipakai. Juara 3 nasional KMIPN VIII 2026 lewat Ecozyne.",
+    "Mahasiswa Teknologi Rekayasa Perangkat Lunak Politeknik Negeri Batam yang memiliki minat dalam Software Engineering, Artificial Intelligence, dan Internet of Things (IoT). Berpengalaman memimpin tim dan mengembangkan produk digital. Juara 3 Nasional KMIPN VIII 2026 melalui proyek Ecozyne serta peneliti dalam International Conference on Applied Engineering (ICAE) 2026 pada bidang Smart Cities, Geospatial & Environmental Systems.",
   about: [
     "Saya Muhammad Nabil Aditya Putera, biasa dipanggil Nabil Aditya. Saya seorang Software Engineer dan Project Manager yang tertarik pada cara teknologi membuat pekerjaan sehari-hari lebih mudah, dan saya suka mengubah ide menjadi sesuatu yang bisa langsung dipakai orang.",
     "Sejak SMK saya terbiasa memimpin proyek dari awal sampai akhir: menganalisis kebutuhan, merancang sistem, membagi tugas, lalu ikut membangunnya. Saya juga aktif mempelajari Software Development Life Cycle (SDLC) agar proses pengembangan berjalan efektif dan efisien.",
@@ -19,10 +19,10 @@ export const profile = {
     { n: "2019", label: "Mulai ngoding" },
   ],
   skills: [
-    { name: "Software Engineering", desc: "Merancang dan membangun aplikasi dari sisi tampilan sampai sisi server dengan Laravel, Flutter, JavaScript, dan Next.js." },
-    { name: "Project Management", desc: "Memimpin tim, menganalisis kebutuhan, dan memastikan proyek selesai tepat waktu dan sesuai kebutuhan." },
-    { name: "AI & IoT", desc: "Menghubungkan perangkat dan data dengan kecerdasan buatan, dari klasifikasi Deep Learning sampai Edge AI YOLOv8n." },
-    { name: "Cybersecurity", desc: "Menerapkan praktik keamanan agar sistem dan data tetap terlindungi." },
+    { name: "Software Engineering", desc: "Merancang dan mengembangkan aplikasi end-to-end, mulai dari frontend hingga backend menggunakan HTML, CSS, JavaScript, PHP, Python, Java, C++, Dart, Laravel, Flutter, Flask, Node.js, dan berbagai framework modern. Berpengalaman dalam pengelolaan database, version control, containerization, serta deployment menggunakan MySQL, PostgreSQL, MongoDB, Git, GitHub, Docker, dan Nginx." },
+    { name: "Project Management", desc: "Memimpin dan mengoordinasikan tim dalam 6 proyek, termasuk 2 kompetisi, dengan pengalaman sebagai Scrum Master. Mengelola kebutuhan, perencanaan, dan pelaksanaan proyek menggunakan metodologi Agile, Waterfall, dan Hybrid, serta menerapkan SDLC untuk memastikan pengembangan berjalan terstruktur dan mencapai target." },
+    { name: "AI & IoT", desc: "Mengintegrasikan AI dan IoT melalui pengembangan sistem klasifikasi Deep Learning, Edge AI menggunakan YOLOv5n pada Raspberry Pi 4, serta implementasi perangkat keras berbasis ESP32, ESP8266, sensor DHT, LDR, ultrasonik HC-SR04, sensor cahaya, dan motor servo untuk otomasi dan pemantauan cerdas." },
+    { name: "Cybersecurity", desc: "Menerapkan Secure SDLC, threat modeling, analisis ancaman, dan vulnerability testing untuk meningkatkan keamanan aplikasi. Aktif dalam bug bounty serta memiliki sertifikasi Certified Ethical Hacker dari IBM." },
   ],
   experience: [
     {
@@ -30,7 +30,7 @@ export const profile = {
       org: "Politeknik Negeri Batam",
       period: "Sep 2026 – Sekarang",
       type: "Paruh waktu · Batam",
-      desc: "Memimpin PawKu, platform kesehatan dan manajemen kesehatan kucing peliharaan.",
+      desc: "Menjabat sebagai CEO PawKu, platform SaaS yang mengintegrasikan layanan kesehatan, perawatan, dan manajemen kebutuhan kucing peliharaan.",
       tags: ["Kepemimpinan", "Produk"],
       now: true,
     },
@@ -48,7 +48,7 @@ export const profile = {
       org: "Sistem manajemen sampah elektronik berbasis IoT",
       period: "Jan 2025 – Jun 2026",
       type: "Purnawaktu",
-      desc: "Mengoordinasikan pengembangan platform IoT yang melacak pengumpulan, pemantauan, dan pembuangan e-waste, dengan modul klasifikasi Deep Learning untuk mengenali jenis sampah elektronik.",
+      desc: "Mengoordinasikan pengembangan platform IoT untuk pemantauan dan pengelolaan e-waste, dilengkapi klasifikasi YOLOv5n pada Raspberry Pi, sensor ultrasonik HC-SR04 untuk mendeteksi kapasitas, dan servo MG90S untuk penyortiran sampah elektronik.",
       tags: ["IoT", "Deep Learning", "Team Lead"],
     },
     {
@@ -134,14 +134,14 @@ export const profile = {
     },
     {
       title: "Voltawaste",
-      desc: "Sistem manajemen sampah elektronik berbasis IoT yang menghubungkan penghasil e-waste, pusat pengumpulan, dan fasilitas daur ulang, dilengkapi klasifikasi Deep Learning.",
+      desc: "Sistem manajemen sampah elektronik berbasis IoT yang menghubungkan penghasil e-waste, pusat pengumpulan, dan fasilitas daur ulang. Sistem ini dilengkapi teknologi Deep Learning menggunakan YOLOv5n untuk mengklasifikasikan sampah elektronik, Raspberry Pi sebagai perangkat pemrosesan AI, sensor ultrasonik HC-SR04 untuk mendeteksi kapasitas tempat sampah, serta servo MG90S untuk mengarahkan sampah sesuai kategori.",
       tags: ["IoT", "Deep Learning", "Team Lead"],
       // GANTI: link repo atau demo Voltawaste
       href: "https://github.com/",
     },
     {
       title: "PawKu",
-      desc: "Platform kesehatan dan manajemen kesehatan kucing peliharaan, saat ini saya pimpin sebagai CEO.",
+      desc: "Platform SaaS kesehatan dan manajemen perawatan kucing terpadu. Saat ini memimpin sebagai CEO, bertanggung jawab atas strategi bisnis, koordinasi tim, pengembangan produk, dan inovasi layanan digital.",
       tags: ["Produk", "Kepemimpinan"],
       // GANTI: link PawKu
       href: "https://github.com/",

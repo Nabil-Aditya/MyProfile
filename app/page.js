@@ -1,11 +1,13 @@
 import { profile } from "./profile";
 import Studs from "./Studs";
 import LegoBuilder from "./LegoBuilder";
+import LegoCamera from "./LegoCamera";
+import LegoStack from "./LegoStack";
 import LegoFX from "./LegoFX";
 
 const BRICK = ["red", "blue", "yellow", "green"];
 
-// logo ada di folder public/logos/. Dicocokkan otomatis lewat nama proyek.
+// logo ada di folder public/Logos/. Dicocokkan otomatis lewat nama proyek.
 const LOGOS = [
   { re: /pawku/i, src: "/Logos/pawku.png", alt: "Logo PawKu", w: 400, h: 385 },
   { re: /voltawaste/i, src: "/Logos/voltawaste.png", alt: "Logo Voltawaste", w: 400, h: 118 },
@@ -44,8 +46,10 @@ export default function Home() {
           <a href="#tentang">Tentang</a>
           <a href="#kerja">Pekerjaan</a>
           <a href="#pengalaman">Pengalaman</a>
+          <a href="#main">Lego</a>
+          <a href="#kamera">Kamera</a>
+          <a href="#stack">Game</a>
           <a href="#proyek">Proyek</a>
-          <a href="#Main">Lego</a>
           <a href="#kontak">Kontak</a>
         </nav>
       </header>
@@ -124,6 +128,18 @@ export default function Home() {
           <h2 id="h-main">Bangun Lego sendiri</h2>
           <p className="lead">Ketuk atau klik untuk memasang brick, seret untuk memutar, cubit dua jari atau scroll untuk zoom. Di komputer, WASD atau Shift + seret untuk menggeser. Di HP, geser dari area di luar kotak game kalau mau scroll halaman.</p>
           <LegoBuilder />
+        </section>
+
+        <section className="block wide" id="kamera" aria-labelledby="h-kamera">
+          <h2 id="h-kamera">Jadi Lego dalam sekali jepret</h2>
+          <p className="lead">Nyalakan kamera, potret wajahmu, dan lihat hasilnya disusun dari brick Lego. Foto diproses di perangkatmu dan tidak diunggah ke mana pun.</p>
+          <LegoCamera />
+        </section>
+
+        <section className="block wide" id="stack" aria-labelledby="h-stack">
+          <h2 id="h-stack">Susun menara Lego</h2>
+          <p className="lead">Ketuk atau tekan Spasi untuk menjatuhkan brick. Bagian yang meleset akan terpotong, jadi susun setepat mungkin. Tiga kali "Pas!" berturut-turut membuat brick melebar lagi.</p>
+          <LegoStack />
         </section>
 
         <section className="block" id="proyek" aria-labelledby="h-proyek">
