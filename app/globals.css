@@ -115,12 +115,31 @@ background:repeating-linear-gradient(#0055bf 0 18px,#e3000b 18px 36px,#ffd500 36
 
 /* ---------- Logo proyek ---------- */
 .project.has-logo{grid-template-columns:150px 1fr}
-.logo-plate{position:relative;display:grid;place-items:center;width:150px;height:96px;margin-top:10px;padding:12px;
-background:#fff;border-radius:10px;box-shadow:0 6px 0 rgba(0,0,0,.28)}
+
+.logo-plate{
+  position:relative;
+  display:block;              /* bukan grid lagi */
+  width:150px;
+  height:96px;
+  margin-top:10px;
+  padding:12px;               /* ruang kosong sama di semua logo */
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 6px 0 rgba(0,0,0,.28);
+}
 .logo-plate::before{content:"";position:absolute;left:12px;right:12px;top:-8px;height:8px;
-background:radial-gradient(ellipse 11px 8px at 50% 100%,#fff 96%,transparent) 0 0/34px 8px repeat-x}
-.logo-plate img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  background:radial-gradient(ellipse 11px 8px at 50% 100%,#fff 96%,transparent) 0 0/34px 8px repeat-x}
+
+.logo-plate img{
+  display:block;
+  width:100%;                 /* isi area dalam plate (126 × 72 px) */
+  height:100%;
+  object-fit:contain;         /* rasio asli dijaga, tidak melar, tidak keluar */
+  object-position:center;
+}
+
 .tl-logo{float:right;max-width:96px;max-height:48px;width:auto;height:auto;margin:0 0 6px 12px}
+
 @media(max-width:520px){
   .project.has-logo{grid-template-columns:96px 1fr}
   .logo-plate{width:96px;height:72px;padding:8px}

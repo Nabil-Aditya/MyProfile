@@ -44,8 +44,8 @@ export default function Home() {
           <a href="#tentang">Tentang</a>
           <a href="#kerja">Pekerjaan</a>
           <a href="#pengalaman">Pengalaman</a>
-          <a href="#main">Main Lego</a>
           <a href="#proyek">Proyek</a>
+          <a href="#Main">Lego</a>
           <a href="#kontak">Kontak</a>
         </nav>
       </header>
