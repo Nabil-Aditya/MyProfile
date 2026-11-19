@@ -20,12 +20,13 @@ const PIECES = [
   { w: 18, h: 22, n: 1 },
 ];
 
-let soundOn = false;
+let soundOn = true; // suara default NYALA
 let ctx = null;
 function beep(f) {
   if (!soundOn) return;
   try {
     const A = ctx || (ctx = new (window.AudioContext || window.webkitAudioContext)());
+    if (A.state === "suspended") A.resume();
     const o = A.createOscillator(), g = A.createGain();
     o.type = "square";
     o.frequency.value = f;
@@ -41,7 +42,7 @@ function beep(f) {
 export default function LegoFX() {
   const fbs = useRef([]);
   const [cnt, setCnt] = useState(0);
-  const [snd, setSnd] = useState(false);
+  const [snd, setSnd] = useState(true);
   const [motion, setMotion] = useState(null); // null = belum dicek, true = animasi nyala
   const [osReduce, setOsReduce] = useState(false); // perangkat meminta "kurangi gerakan"
   const prev = useRef(0);
@@ -53,12 +54,36 @@ export default function LegoFX() {
     try { saved = localStorage.getItem("motion"); } catch {}
     setOsReduce(reduce);
     setMotion(saved ? saved === "on" : !reduce);
+
+    let savedSnd = null;
+    try { savedSnd = localStorage.getItem("sound"); } catch {}
+    soundOn = savedSnd !== "off";
+    setSnd(soundOn);
   }, []);
 
   // CSS memakai atribut ini untuk menentukan animasi boleh jalan atau tidak
   useEffect(() => {
     if (motion !== null) document.documentElement.dataset.motion = motion ? "on" : "off";
   }, [motion]);
+
+  // browser memblokir suara sebelum ada sentuhan pertama: buka kuncinya di sentuhan pertama
+  useEffect(() => {
+    const evs = ["pointerdown", "touchend", "keydown", "click"];
+    const unlock = () => {
+      try {
+        const A = ctx || (ctx = new (window.AudioContext || window.webkitAudioContext)());
+        if (A.state === "suspended") {
+          A.resume().then(() => {
+            if (A.state === "running") evs.forEach((t) => removeEventListener(t, unlock));
+          });
+        } else {
+          evs.forEach((t) => removeEventListener(t, unlock));
+        }
+      } catch {}
+    };
+    evs.forEach((t) => addEventListener(t, unlock, { passive: true }));
+    return () => evs.forEach((t) => removeEventListener(t, unlock));
+  }, []);
 
   useEffect(() => {
     if (cnt !== prev.current) beep(280 + cnt * 35);
@@ -190,7 +215,12 @@ export default function LegoFX() {
     };
   }, [motion]);
 
-  const toggleSound = () => { soundOn = !soundOn; setSnd(soundOn); beep(520); };
+  const toggleSound = () => {
+    soundOn = !soundOn;
+    setSnd(soundOn);
+    try { localStorage.setItem("sound", soundOn ? "on" : "off"); } catch {}
+    beep(520);
+  };
   const toggleMotion = () => {
     const n = !motion;
     setMotion(n);

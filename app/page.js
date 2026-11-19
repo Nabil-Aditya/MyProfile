@@ -60,10 +60,6 @@ export default function Home() {
             </h1>
             <p className="role">{role}</p>
             <p className="intro">{intro}</p>
-            <div className="actions">
-              <a className="btn" href="#main">Main Lego 3D</a>
-              <a className="textlink" href="#kontak">Hubungi saya</a>
-            </div>
             <ul className="stats">
               {stats.map((s, i) => (
                 <li className={BRICK[i % 4]} key={s.label}>
@@ -165,7 +161,7 @@ export default function Home() {
               <li key={l.label}><a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a></li>
             ))}
           </ul>
-          <p className="legal">&copy; {new Date().getFullYear()} {name}. Situs penggemar bertema brick, tidak berafiliasi dengan LEGO Group.</p>
+          <p className="legal">&copy; {new Date().getFullYear()} {name}</p>
         </div>
       </footer>
     </>

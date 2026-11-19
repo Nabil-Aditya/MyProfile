@@ -13,7 +13,7 @@ export const profile = {
     "Minat saya berada di persimpangan AI, IoT, dan Cybersecurity: bagaimana perangkat terhubung, bagaimana data diolah menjadi keputusan, dan bagaimana semuanya tetap aman. Kalau kamu punya ide, pertanyaan, atau tawaran kerja sama, saya senang mendengarnya.",
   ],
   stats: [
-    { n: "12", label: "Pengalaman" },
+    { n: "20+", label: "Proyek Nyata" },
     { n: "3rd", label: "KMIPN VIII 2026" },
     { n: "6", label: "Proyek dipimpin" },
     { n: "2019", label: "Mulai ngoding" },
@@ -151,12 +151,7 @@ export const profile = {
       desc: "Aplikasi web pengajuan proposal pelatihan dan sistem akuntabilitas, dibangun end-to-end bersama tim.",
       tags: ["Full-Stack", "Team Lead"],
     },
-    {
-      title: "Halaman perkenalan pribadi",
-      desc: "Situs portofolio bertema Lego yang sedang kamu lihat, lengkap dengan game bangun Lego 3D. Dibuat dengan Next.js dan Three.js.",
-      tags: ["Next.js", "Three.js", "Vercel"],
-      href: "https://www.nabiladitya.my.id",
-    },
+
   ],
   contact: {
     email: "digisiondev@gmail.com", 
