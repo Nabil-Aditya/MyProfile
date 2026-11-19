@@ -1,11 +1,45 @@
 import { profile } from "./profile";
 
 export default function Home() {
-  const { name, nameLines, callName, intro, about, skills, projects, contact } =
-    profile;
+  const {
+    name,
+    nameLines,
+    callName,
+    role,
+    intro,
+    about,
+    skills,
+    projects,
+    contact,
+    siteUrl,
+  } = profile;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name,
+    alternateName: [callName, "Nabil Aditya", "Nabil Aditya Putera"],
+    url: siteUrl,
+    description: intro,
+    jobTitle: ["Software Engineer", "Project Manager"],
+    knowsAbout: [
+      "Artificial Intelligence",
+      "Internet of Things",
+      "Cybersecurity",
+      "Software Engineering",
+      "Project Management",
+    ],
+    email: contact.email,
+    sameAs: contact.links.map((l) => l.href),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <header className="topbar">
         <a className="brand" href="#atas" aria-label={`${name}, ke bagian atas`}>
           {callName}
@@ -29,6 +63,8 @@ export default function Home() {
               </span>
             ))}
           </h1>
+
+          <p className="role">{role}</p>
 
           <div className="hero-foot">
             <p className="intro">{intro}</p>
