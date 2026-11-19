@@ -23,8 +23,9 @@ export default function LegoBuilder() {
   useEffect(() => {
     const cv = canvas.current;
     const el = wrap.current;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
     const R = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
-    R.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    R.setPixelRatio(Math.min(window.devicePixelRatio, coarse ? 1.5 : 2));
     R.setClearColor(0xbfe3ff);
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0xbfe3ff, 120, 320);
@@ -114,6 +115,8 @@ export default function LegoBuilder() {
       };
     }
     function updGhost(ev) {
+      // layar sentuh tidak punya "hover", jadi bayangan brick tidak ditampilkan
+      if (ev.pointerType === "touch") { if (ghost) ghost.visible = false; return; }
       const t = target(ev);
       if (!t || cur.current.del || cur.current.pan) { if (ghost) ghost.visible = false; return; }
       const k = [t.x, t.y, t.z, t.w, t.d, cur.current.c].join();
@@ -134,9 +137,28 @@ export default function LegoBuilder() {
       cam.position.set(tgt.x + dist * Math.cos(pitch) * Math.sin(yaw), tgt.y + dist * Math.sin(pitch), tgt.z + dist * Math.cos(pitch) * Math.cos(yaw));
       cam.lookAt(tgt);
     };
-    let down = null, moved = 0, last = null;
-    const onDown = (e) => { down = e; last = e; moved = 0; cv.setPointerCapture(e.pointerId); };
+
+    // pointer: 1 jari = putar / pasang brick, 2 jari = cubit untuk zoom
+    let down = null, moved = 0, last = null, pinch = 0;
+    const pts = new Map();
+    const two = () => {
+      const [a, b] = [...pts.values()];
+      return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+    };
+    const onDown = (e) => {
+      pts.set(e.pointerId, e);
+      if (pts.size === 2) { pinch = two(); moved = 99; if (ghost) ghost.visible = false; return; }
+      down = e; last = e; moved = 0;
+      cv.setPointerCapture(e.pointerId);
+    };
     const onMove = (e) => {
+      if (pts.has(e.pointerId)) pts.set(e.pointerId, e);
+      if (pts.size === 2) {
+        const d = two();
+        if (pinch) dist = Math.max(8, Math.min(90, dist * (pinch / d)));
+        pinch = d;
+        return;
+      }
       if (down) {
         const dx = e.clientX - last.clientX, dy = e.clientY - last.clientY;
         moved += Math.abs(dx) + Math.abs(dy);
@@ -153,7 +175,10 @@ export default function LegoBuilder() {
       } else updGhost(e);
     };
     const onUp = (e) => {
-      if (down && moved < 6 && down.button === 0 && !cur.current.pan && !down.shiftKey) {
+      pts.delete(e.pointerId);
+      if (pts.size < 2) pinch = 0;
+      const tap = down && down.pointerType === "touch" ? 14 : 6; // jari lebih goyang dari mouse
+      if (down && down.pointerId === e.pointerId && moved < tap && down.button === 0 && !cur.current.pan && !down.shiftKey) {
         const t = target(e);
         if (t) {
           if (cur.current.del) { if (t.brick) remove(t.brick); }
@@ -162,13 +187,19 @@ export default function LegoBuilder() {
           updGhost(e);
         }
       }
-      down = null;
+      if (down && down.pointerId === e.pointerId) down = null;
+    };
+    const onCancel = (e) => {
+      pts.delete(e.pointerId);
+      pinch = 0;
+      if (down && down.pointerId === e.pointerId) down = null;
     };
     const onWheel = (e) => { e.preventDefault(); dist = Math.max(8, Math.min(90, dist * (1 + e.deltaY * 0.001))); };
     const noMenu = (e) => e.preventDefault();
     cv.addEventListener("pointerdown", onDown);
     cv.addEventListener("pointermove", onMove);
     cv.addEventListener("pointerup", onUp);
+    cv.addEventListener("pointercancel", onCancel);
     cv.addEventListener("wheel", onWheel, { passive: false });
     cv.addEventListener("contextmenu", noMenu);
 
@@ -198,8 +229,15 @@ export default function LegoBuilder() {
     ro.observe(el);
     resize();
 
+    // hemat baterai: berhenti menggambar kalau area bermain tidak terlihat
+    let vis = true;
+    const vio = new IntersectionObserver(([en]) => { vis = en.isIntersecting; });
+    vio.observe(el);
+
     let raf;
     const loop = () => {
+      raf = requestAnimationFrame(loop);
+      if (!vis) return;
       const sp = dist * 0.012;
       const fx = (keys.w || keys.arrowup ? 1 : 0) - (keys.s || keys.arrowdown ? 1 : 0);
       const rx = (keys.d || keys.arrowright ? 1 : 0) - (keys.a || keys.arrowleft ? 1 : 0);
@@ -208,18 +246,19 @@ export default function LegoBuilder() {
       base.position.set(Math.round(tgt.x), 0, Math.round(tgt.z));
       camUpd();
       R.render(scene, cam);
-      raf = requestAnimationFrame(loop);
     };
     loop();
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      vio.disconnect();
       window.removeEventListener("keydown", kd);
       window.removeEventListener("keyup", ku);
       cv.removeEventListener("pointerdown", onDown);
       cv.removeEventListener("pointermove", onMove);
       cv.removeEventListener("pointerup", onUp);
+      cv.removeEventListener("pointercancel", onCancel);
       cv.removeEventListener("wheel", onWheel);
       cv.removeEventListener("contextmenu", noMenu);
       R.dispose();
@@ -228,7 +267,7 @@ export default function LegoBuilder() {
 
   return (
     <div className="builder" ref={wrap}>
-      <canvas ref={canvas} aria-label="Area bermain Lego 3D" />
+      <canvas ref={canvas} style={{ touchAction: "none" }} aria-label="Area bermain Lego 3D" />
       <div className="b-top">Brick: {count}</div>
       <div className="b-bar">
         {COLORS.map((c, i) => (

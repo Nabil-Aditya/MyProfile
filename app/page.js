@@ -1,11 +1,24 @@
 import { profile } from "./profile";
 import Studs from "./Studs";
 import LegoBuilder from "./LegoBuilder";
+import LegoFX from "./LegoFX";
 
 const BRICK = ["red", "blue", "yellow", "green"];
 
+// logo ada di folder public/logos/. Dicocokkan otomatis lewat nama proyek.
+const LOGOS = [
+  { re: /pawku/i, src: "/logos/pawku.png", alt: "Logo PawKu", w: 400, h: 385 },
+  { re: /voltawaste/i, src: "/logos/voltawaste.png", alt: "Logo Voltawaste", w: 400, h: 118 },
+  { re: /ecozyne/i, src: "/logos/ecozyne.png", alt: "Logo Ecozyne", w: 315, h: 400 },
+  { re: /sipelita/i, src: "/logos/sipelita.jpg", alt: "Logo SIPELITA", w: 400, h: 400 },
+];
+const logoOf = (...parts) => {
+  const s = parts.join(" ");
+  return LOGOS.find((l) => l.re.test(s));
+};
+
 export default function Home() {
-  const { name, nameLines, callName, role, intro, about, skills, projects, contact, siteUrl } = profile;
+  const { name, nameLines, callName, role, intro, about, skills, projects, contact, siteUrl, stats, experience } = profile;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -22,6 +35,7 @@ export default function Home() {
 
   return (
     <>
+      <LegoFX />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <header className="topbar">
@@ -29,6 +43,7 @@ export default function Home() {
         <nav aria-label="Navigasi utama">
           <a href="#tentang">Tentang</a>
           <a href="#kerja">Pekerjaan</a>
+          <a href="#pengalaman">Pengalaman</a>
           <a href="#main">Main Lego</a>
           <a href="#proyek">Proyek</a>
           <a href="#kontak">Kontak</a>
@@ -49,6 +64,14 @@ export default function Home() {
               <a className="btn" href="#main">Main Lego 3D</a>
               <a className="textlink" href="#kontak">Hubungi saya</a>
             </div>
+            <ul className="stats">
+              {stats.map((s, i) => (
+                <li className={BRICK[i % 4]} key={s.label}>
+                  <b>{s.n}</b>
+                  <span>{s.label}</span>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="hero-photo">
             <div className="plate">
@@ -75,25 +98,60 @@ export default function Home() {
           </ul>
         </section>
 
+        <section className="block wide" id="pengalaman" aria-labelledby="h-pengalaman">
+          <h2 id="h-pengalaman">Perjalanan saya</h2>
+          <ol className="timeline">
+            {experience.map((e, i) => {
+              const logo = logoOf(e.title, e.desc);
+              return (
+                <li className={"tl-item " + BRICK[i % 4]} key={e.title + e.period}>
+                  <span className="tl-stud" aria-hidden="true" />
+                  <div className="tl-card">
+                    {logo && <img className="tl-logo" src={logo.src} alt={logo.alt} width={logo.w} height={logo.h} loading="lazy" />}
+                    <div className="tl-head">
+                      <span className="tl-period">{e.period}</span>
+                      {e.now && <span className="tl-badge now">Saat ini</span>}
+                      {e.award && <span className="tl-badge award">{e.award}</span>}
+                    </div>
+                    <h3>{e.title}</h3>
+                    <p className="tl-org">{e.org} · {e.type}</p>
+                    <p>{e.desc}</p>
+                    <p className="tags">{e.tags.join(", ")}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+
         <section className="block wide" id="main" aria-labelledby="h-main">
           <h2 id="h-main">Bangun Lego sendiri</h2>
-          <p className="lead">Klik untuk memasang brick, seret untuk memutar, scroll untuk zoom. WASD atau Shift + seret untuk menggeser.</p>
+          <p className="lead">Ketuk atau klik untuk memasang brick, seret untuk memutar, cubit dua jari atau scroll untuk zoom. Di komputer, WASD atau Shift + seret untuk menggeser. Di HP, geser dari area di luar kotak game kalau mau scroll halaman.</p>
           <LegoBuilder />
         </section>
 
         <section className="block" id="proyek" aria-labelledby="h-proyek">
           <h2 id="h-proyek">Proyek</h2>
           <ul className="projects">
-            {projects.map((p, i) => (
-              <li className="project" key={p.title}>
-                <span className={"dot " + BRICK[i % 4]} aria-hidden="true" />
-                <div>
-                  <h3>{p.href ? <a href={p.href} target="_blank" rel="noopener noreferrer">{p.title}</a> : p.title}</h3>
-                  <p>{p.desc}</p>
-                  <p className="tags">{p.tags.join(", ")}</p>
-                </div>
-              </li>
-            ))}
+            {projects.map((p, i) => {
+              const logo = logoOf(p.title);
+              return (
+                <li className={"project" + (logo ? " has-logo" : "")} key={p.title}>
+                  {logo ? (
+                    <span className="logo-plate">
+                      <img src={logo.src} alt={logo.alt} width={logo.w} height={logo.h} loading="lazy" />
+                    </span>
+                  ) : (
+                    <span className={"dot " + BRICK[i % 4]} aria-hidden="true" />
+                  )}
+                  <div>
+                    <h3>{p.href ? <a href={p.href} target="_blank" rel="noopener noreferrer">{p.title}</a> : p.title}</h3>
+                    <p>{p.desc}</p>
+                    <p className="tags">{p.tags.join(", ")}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </section>
       </main>

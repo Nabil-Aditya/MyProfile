@@ -1,6 +1,7 @@
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/source-serif-4";
 import "./globals.css";
+import "./lego-fx.css";
 import { profile } from "./profile";
 
 const siteUrl = "https://www.nabiladitya.my.id";
