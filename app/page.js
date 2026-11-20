@@ -1,3 +1,5 @@
+
+import Script from "next/script";
 import { profile } from "./profile";
 import Studs from "./Studs";
 import LegoBuilder from "./LegoBuilder";
@@ -14,13 +16,27 @@ const LOGOS = [
   { re: /ecozyne/i, src: "/Logos/ecozyne.png", alt: "Logo Ecozyne", w: 315, h: 400 },
   { re: /sipelita/i, src: "/Logos/sipelita.jpg", alt: "Logo SIPELITA", w: 400, h: 400 },
 ];
+
 const logoOf = (...parts) => {
   const s = parts.join(" ");
   return LOGOS.find((l) => l.re.test(s));
 };
 
 export default function Home() {
-  const { name, nameLines, callName, role, intro, about, skills, projects, contact, siteUrl, stats, experience } = profile;
+  const {
+    name,
+    nameLines,
+    callName,
+    role,
+    intro,
+    about,
+    skills,
+    projects,
+    contact,
+    siteUrl,
+    stats,
+    experience,
+  } = profile;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -30,18 +46,57 @@ export default function Home() {
     url: siteUrl,
     description: intro,
     jobTitle: ["Software Engineer", "Project Manager"],
-    knowsAbout: ["Artificial Intelligence", "Internet of Things", "Cybersecurity", "Software Engineering", "Project Management"],
+    knowsAbout: [
+      "Artificial Intelligence",
+      "Internet of Things",
+      "Cybersecurity",
+      "Software Engineering",
+      "Project Management",
+    ],
     email: contact.email,
     sameAs: contact.links.map((l) => l.href),
   };
 
   return (
     <>
+      {/* Google Tag Manager */}
+      <Script
+        id="google-tag-manager"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){
+              w[l]=w[l]||[];
+              w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+              });
+              var f=d.getElementsByTagName(s)[0],
+                  j=d.createElement(s),
+                  dl=l!='dataLayer'?'&l='+l:'';
+              j.async=true;
+              j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+              f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-5J9MJLC6');
+          `,
+        }}
+      />
+
       <LegoFX />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* Structured Data SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
 
       <header className="topbar">
-        <a className="brand" href="#atas" aria-label={`${name}, ke bagian atas`}>{callName}</a>
+        <a className="brand" href="#atas" aria-label={`${name}, ke bagian atas`}>
+          {callName}
+        </a>
+
         <nav aria-label="Navigasi utama">
           <a href="#tentang">Tentang</a>
           <a href="#kerja">Pekerjaan</a>
@@ -59,11 +114,20 @@ export default function Home() {
           <div className="hero-text">
             <h1 className="name" aria-label={name}>
               {nameLines.map((line, i) => (
-                <span className={"chip " + BRICK[i % 4]} aria-hidden="true" key={line} style={{ "--i": i }}>{line}</span>
+                <span
+                  className={"chip " + BRICK[i % 4]}
+                  aria-hidden="true"
+                  key={line}
+                  style={{ "--i": i }}
+                >
+                  {line}
+                </span>
               ))}
             </h1>
+
             <p className="role">{role}</p>
             <p className="intro">{intro}</p>
+
             <ul className="stats">
               {stats.map((s, i) => (
                 <li className={BRICK[i % 4]} key={s.label}>
@@ -73,9 +137,15 @@ export default function Home() {
               ))}
             </ul>
           </div>
+
           <div className="hero-photo">
             <div className="plate">
-              <img src="/nabil.png" alt={`Foto ${name}`} width="608" height="800" />
+              <img
+                src="/nabil.png"
+                alt={`Foto ${name}`}
+                width="608"
+                height="800"
+              />
             </div>
             <Studs />
           </div>
@@ -83,7 +153,11 @@ export default function Home() {
 
         <section className="block" id="tentang" aria-labelledby="h-tentang">
           <h2 id="h-tentang">Tentang saya</h2>
-          <div className="prose">{about.map((p) => <p key={p}>{p}</p>)}</div>
+          <div className="prose">
+            {about.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
         </section>
 
         <section className="block" id="kerja" aria-labelledby="h-kerja">
@@ -103,18 +177,42 @@ export default function Home() {
           <ol className="timeline">
             {experience.map((e, i) => {
               const logo = logoOf(e.title, e.desc);
+
               return (
-                <li className={"tl-item " + BRICK[i % 4]} key={e.title + e.period}>
+                <li
+                  className={"tl-item " + BRICK[i % 4]}
+                  key={e.title + e.period}
+                >
                   <span className="tl-stud" aria-hidden="true" />
+
                   <div className="tl-card">
-                    {logo && <img className="tl-logo" src={logo.src} alt={logo.alt} width={logo.w} height={logo.h} loading="lazy" />}
+                    {logo && (
+                      <img
+                        className="tl-logo"
+                        src={logo.src}
+                        alt={logo.alt}
+                        width={logo.w}
+                        height={logo.h}
+                        loading="lazy"
+                      />
+                    )}
+
                     <div className="tl-head">
                       <span className="tl-period">{e.period}</span>
-                      {e.now && <span className="tl-badge now">Saat ini</span>}
-                      {e.award && <span className="tl-badge award">{e.award}</span>}
+
+                      {e.now && (
+                        <span className="tl-badge now">Saat ini</span>
+                      )}
+
+                      {e.award && (
+                        <span className="tl-badge award">{e.award}</span>
+                      )}
                     </div>
+
                     <h3>{e.title}</h3>
-                    <p className="tl-org">{e.org} · {e.type}</p>
+                    <p className="tl-org">
+                      {e.org} · {e.type}
+                    </p>
                     <p>{e.desc}</p>
                     <p className="tags">{e.tags.join(", ")}</p>
                   </div>
@@ -126,19 +224,32 @@ export default function Home() {
 
         <section className="block wide" id="main" aria-labelledby="h-main">
           <h2 id="h-main">Bangun Lego sendiri</h2>
-          <p className="lead">Ketuk atau klik untuk memasang brick, seret untuk memutar, cubit dua jari atau scroll untuk zoom. Di komputer, WASD atau Shift + seret untuk menggeser. Di HP, geser dari area di luar kotak game kalau mau scroll halaman.</p>
+          <p className="lead">
+            Ketuk atau klik untuk memasang brick, seret untuk memutar, cubit
+            dua jari atau scroll untuk zoom. Di komputer, WASD atau Shift +
+            seret untuk menggeser. Di HP, geser dari area di luar kotak game
+            kalau mau scroll halaman.
+          </p>
           <LegoBuilder />
         </section>
 
         <section className="block wide" id="kamera" aria-labelledby="h-kamera">
           <h2 id="h-kamera">Jadi Lego dalam sekali jepret</h2>
-          <p className="lead">Nyalakan kamera, potret wajahmu, dan lihat hasilnya disusun dari brick Lego. Foto diproses di perangkatmu dan tidak diunggah ke mana pun.</p>
+          <p className="lead">
+            Nyalakan kamera, potret wajahmu, dan lihat hasilnya disusun dari
+            brick Lego. Foto diproses di perangkatmu dan tidak diunggah ke
+            mana pun.
+          </p>
           <LegoCamera />
         </section>
 
         <section className="block wide" id="stack" aria-labelledby="h-stack">
           <h2 id="h-stack">Susun menara Lego</h2>
-          <p className="lead">Ketuk atau tekan Spasi untuk menjatuhkan brick. Bagian yang meleset akan terpotong, jadi susun setepat mungkin. Tiga kali "Pas!" berturut-turut membuat brick melebar lagi.</p>
+          <p className="lead">
+            Ketuk atau tekan Spasi untuk menjatuhkan brick. Bagian yang
+            meleset akan terpotong, jadi susun setepat mungkin. Tiga kali
+            "Pas!" berturut-turut membuat brick melebar lagi.
+          </p>
           <LegoStack />
         </section>
 
@@ -147,17 +258,44 @@ export default function Home() {
           <ul className="projects">
             {projects.map((p, i) => {
               const logo = logoOf(p.title);
+
               return (
-                <li className={"project" + (logo ? " has-logo" : "")} key={p.title}>
+                <li
+                  className={"project" + (logo ? " has-logo" : "")}
+                  key={p.title}
+                >
                   {logo ? (
                     <span className="logo-plate">
-                      <img src={logo.src} alt={logo.alt} width={logo.w} height={logo.h} loading="lazy" />
+                      <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        width={logo.w}
+                        height={logo.h}
+                        loading="lazy"
+                      />
                     </span>
                   ) : (
-                    <span className={"dot " + BRICK[i % 4]} aria-hidden="true" />
+                    <span
+                      className={"dot " + BRICK[i % 4]}
+                      aria-hidden="true"
+                    />
                   )}
+
                   <div>
-                    <h3>{p.href ? <a href={p.href} target="_blank" rel="noopener noreferrer">{p.title}</a> : p.title}</h3>
+                    <h3>
+                      {p.href ? (
+                        <a
+                          href={p.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {p.title}
+                        </a>
+                      ) : (
+                        p.title
+                      )}
+                    </h3>
+
                     <p>{p.desc}</p>
                     <p className="tags">{p.tags.join(", ")}</p>
                   </div>
@@ -171,13 +309,28 @@ export default function Home() {
       <footer className="contact" id="kontak">
         <div className="contact-inner">
           <h2>Ada yang ingin dibicarakan?</h2>
-          <a className="mail" href={`mailto:${contact.email}`}>{contact.email}</a>
+
+          <a className="mail" href={`mailto:${contact.email}`}>
+            {contact.email}
+          </a>
+
           <ul className="social">
             {contact.links.map((l) => (
-              <li key={l.label}><a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a></li>
+              <li key={l.label}>
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {l.label}
+                </a>
+              </li>
             ))}
           </ul>
-          <p className="legal">&copy; {new Date().getFullYear()} {name}</p>
+
+          <p className="legal">
+            &copy; {new Date().getFullYear()} {name}
+          </p>
         </div>
       </footer>
     </>
